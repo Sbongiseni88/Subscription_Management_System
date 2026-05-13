@@ -9,12 +9,14 @@ import authRouter from './routes/auth.routes.js';
 import connectToDatabase from './database/mongodb.js';
 import errorMiddleware from './middlewares/error.middleware.js';
 import cookieParser from 'cookie-parser';
+import arcjetMiddleware from './middlewares/arcject.middleware.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
+app.use(arcjetMiddleware);
 
 // Middleware: Functions that run between receiving a request and sending a response.
 // We use API Versioning (v1) to ensure that if we change the API in the future, 
