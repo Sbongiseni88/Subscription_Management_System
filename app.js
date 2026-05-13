@@ -7,8 +7,14 @@ import userRouter from './routes/user.routes.js';
 import subscriptionRouter from './routes/subscription.routes.js';
 import authRouter from './routes/auth.routes.js';
 import connectToDatabase from './database/mongodb.js';
+import errorMiddleware from './middlewares/error.middleware.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
 
 // Middleware: Functions that run between receiving a request and sending a response.
 // We use API Versioning (v1) to ensure that if we change the API in the future, 
@@ -16,6 +22,14 @@ const app = express();
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
+
+/**
+ * Global Error Handling Middleware
+ * IMPORTANT: This must be placed AFTER all other routes and middleware.
+ * If any of the routes above throw an error, Express will skip all other normal 
+ * middlewares and jump straight to this one to handle the error properly.
+ */
+app.use(errorMiddleware);
 
 // A simple welcome route to check if the server is running.
 app.get('/', (req, res) => {
