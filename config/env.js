@@ -8,4 +8,11 @@ import { config } from 'dotenv';
 config({ path: `.env.${process.env.NODE_ENV || 'development'}.local` });
 
 // We export these variables so they can be easily used throughout the app.
-export const { PORT, NODE_ENV, DB_URI } = process.env;
+export const { 
+    PORT,
+    NODE_ENV,
+    DB_URI,
+    JWT_SECRET,
+    JWT_EXPIRES_IN
+    
+    } = process.env;
